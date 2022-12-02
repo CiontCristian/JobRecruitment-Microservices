@@ -1,0 +1,38 @@
+version: "3.8"
+
+services:
+
+  companies:
+    image: ciontcristian/companies:latest
+    build:
+      context: ../CompaniesService
+      dockerfile: Dockerfile
+    ports:
+      - "8090:8090"
+    networks:
+      - ciontcristian-network
+
+  jobs:
+    image: ciontcristian/jobs:latest
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    deploy:
+      replicas: 2
+    ports:
+      - "8080"
+    networks:
+      - ciontcristian-network
+
+  users:
+    image: ciontcristian/users:latest
+    build:
+      context: ../JobsService
+      dockerfile: Dockerfile
+    ports:
+      - "9000:9000"
+    networks:
+      - ciontcristian-network
+
+networks:
+  ciontcristian-network:
